@@ -19,7 +19,8 @@ void main(void) {
   float specularIntensity = pow(max(dot(reflection01, directionToEye01), 0.0), 64.0);
 
   //vec4 texColor = texture2D(uAlbedoTexture, vTexCoords);
-    vec4 texColor = texture2D(uShadowTexture, vTexCoords);
+    // vec4 texColor = texture2D(uShadowTexture, vTexCoords);
+    vec4 texColor = texture2D(uAlbedoTexture, vTexCoords);
 
   // todo #4 sample a color from the shadow texture using vTexCoords and visualize the result
 
@@ -57,6 +58,12 @@ void main(void) {
   //} else {
   //    gl_FragColor = vec4(finalColor, 1.0);
   //}
-}
 
-// EOF 00100001-10
+  float shade = shadowColor.z + bias;
+
+  if ((shade) < (lightDepth)){
+    gl_FragColor = vec4(ambient, 1.0);
+  } else {
+    gl_FragColor = vec4(finalColor, 1.0);
+  }
+}
